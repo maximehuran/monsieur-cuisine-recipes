@@ -22,13 +22,17 @@ Le catalogue est [catalog.json](catalog.json). Il utilise `toque-recettes-1` et 
 
 Accès public sans jeton : `https://api.github.com/repos/maximehuran/monsieur-cuisine-recipes/contents/catalog.json`, avec l’en-tête `Accept: application/vnd.github.raw+json`.
 
-Toque officiel 0.5.1 ne sait pas encore lire ce dépôt. La version adaptée [Toque 0.5.2.1](https://github.com/maximehuran/monsieur-cuisine-recipes/releases/tag/v0.5.2.1) est compilée à partir d’une révision précise des sources et du petit correctif contenu dans `integration/toque-github-recipes.patch`. Aucune copie complète du projet Toque n’est conservée ici. Ce correctif reste une adaptation à entretenir lors d’un changement de version de base.
+Toque officiel 0.5.1 ne sait pas encore lire ce dépôt. La [PR nº 16 sur Wuki60/MrCuisineVibeConnect](https://github.com/Wuki60/MrCuisineVibeConnect/pull/16) propose des sources JSON configurables et utilise ce dépôt comme exemple. Elle est en brouillon, avec tests et compilation réussis ; l’interface reste à vérifier sur le robot. Cette fonctionnalité n’est pas encore intégrée à une version officielle.
 
-Une installation initiale de cet APK par-dessus Toque est nécessaire. Ensuite : **Réglages → Mes recettes GitHub → Synchroniser maintenant**, puis rechercher « Prélavage ». Le robot vérifie aussi le dépôt au démarrage et chaque jour tant que Toque est ouvert, connecté et au repos, hors recette guidée en cours. Les réglages de cuisson restent déclenchés par l’utilisateur.
+Si cette contribution est intégrée puis publiée, il suffira de mettre à jour Toque et d’ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON**. Les recettes pourront ensuite se synchroniser au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessitera alors aucune recompilation de Toque.
 
-Les erreurs de téléchargement ou de format laissent les recettes précédentes disponibles. Les synchronisations Lidl préservent les identifiants personnels `perso-…`. Le catalogue est limité à 500 recettes et 2 Mio. Cette première intégration ne télécharge pas les photos des recettes personnelles.
+Les erreurs de téléchargement ou de format conserveront le catalogue précédent. Chaque source disposera d’un espace distinct : la synchronisation Lidl ne supprimera pas les recettes de ce dépôt. Les favoris seront conservés lorsqu’une recette disparaît de la source. Le format proposé est limité à 500 recettes et 2 Mio ; les photos personnalisées ne sont pas téléchargées.
 
-Les mises à jour de recettes ne mettent pas l’application à jour. Le bouton de mise à jour de cette version adaptée consulte uniquement les versions publiées dans ce dépôt. Les sources Toque conservent leur licence MIT, reproduite dans [LICENSE.Toque](LICENSE.Toque) et [LICENSE.Monsieur-Cuisine-SDK](LICENSE.Monsieur-Cuisine-SDK).
+### Prototype personnel en pause
+
+L’ancienne [version adaptée 0.5.2.1](https://github.com/maximehuran/monsieur-cuisine-recipes/releases/tag/v0.5.2.1) et le correctif `integration/toque-github-recipes.patch` sont conservés pour référence. Leur compilation automatique est désactivée. Ce prototype n’a pas été installé sur le robot pendant cette préparation et ne constitue plus le parcours proposé : la priorité est la contribution au projet officiel. L’action de validation et de publication de `catalog.json` reste active.
+
+Les mises à jour des recettes sont distinctes des mises à jour de l’application. La contribution conserve le mécanisme officiel de mise à jour de Toque. Les sources Toque conservent leur licence MIT, reproduite dans [LICENSE.Toque](LICENSE.Toque) et [LICENSE.Monsieur-Cuisine-SDK](LICENSE.Monsieur-Cuisine-SDK).
 
 ## Sources de la fiche de nettoyage
 
