@@ -4,8 +4,7 @@
   "category": "Entretien",
   "tags": [
     "nettoyage",
-    "prélavage",
-    "test GitHub"
+    "prélavage"
   ],
   "servings": 0,
   "prepMinutes": 2,
@@ -35,10 +34,10 @@
   ],
   "steps": [
     {
-      "text": "Le premier test de cette fiche consiste à vérifier sa synchronisation et son affichage. Exécuter le cycle seulement après validation des sécurités du robot. Retirer les gros résidus avec une spatule adaptée, moteur arrêté, sans toucher les lames."
+      "text": "Attendre l’arrêt complet des lames et laisser refroidir le bol. Sortir le bol du robot et retirer les gros résidus avec une spatule adaptée, sans toucher les lames."
     },
     {
-      "text": "Garder le couteau correctement monté avec son joint. Retirer le fouet et les paniers. Vérifier que le bol est correctement installé et que ses contacts extérieurs sont secs."
+      "text": "Retirer le fouet et les paniers. Garder le couteau correctement monté avec son joint. Vérifier que les contacts extérieurs du bol sont secs, puis installer le bol sur le robot."
     },
     {
       "text": "Verser 500 ml d’eau froide ou tiède, jamais bouillante, dans le bol.",
@@ -64,13 +63,13 @@
       "needsReview": true
     },
     {
-      "text": "Attendre l’arrêt complet des lames. Retirer le bol, vider l’eau savonneuse, puis rincer le bol, le couvercle et le gobelet à l’eau claire. Terminer à la main avec une brosse si des résidus subsistent."
+      "text": "Attendre l’arrêt complet des lames, puis éteindre et débrancher le robot. Retirer le bol et vider l’eau savonneuse. Terminer le nettoyage du bol et des accessoires avec une brosse douce et du liquide vaisselle, puis rincer soigneusement à l’eau claire, sans toucher les lames à mains nues."
     },
     {
-      "text": "Pour essuyer le socle ou démonter des accessoires, éteindre et débrancher l’appareil. Nettoyer le socle avec un chiffon légèrement humide, puis sécher ; ne jamais l’immerger. Laisser sécher les contacts du bol avant remise en place."
+      "text": "Si nécessaire, essuyer le socle avec un chiffon légèrement humide, appareil toujours débranché, puis sécher ; ne jamais l’immerger. Laisser toutes les pièces et les contacts du bol sécher complètement avant remontage. Pour un lavage au lave-vaisselle, retirer d’abord le couteau du bol selon la notice."
     }
   ],
-  "notes": "Prélavage maison pour des salissures légères, à compléter par un nettoyage normal. Ce cycle ne désinfecte pas et ne traite pas les dépôts brûlés. Adaptation non testée physiquement sur ce robot : 500 ml et vitesse 5 d’après Technplay ; cycle court de 30 s d’après Cuisine Pratique. Eau limitée à 40 °C et chauffe désactivée pour ce premier test. Ne pas mélanger de produits de nettoyage.",
+  "notes": "Prélavage maison pour des salissures légères, à compléter par un nettoyage normal et un rinçage soigneux. Ce cycle ne désinfecte pas et ne traite pas les dépôts brûlés. Utiliser uniquement une petite goutte de liquide vaisselle pour limiter la mousse ; ne pas mélanger de produits de nettoyage. L’eau reste froide ou tiède (40 °C maximum), sans chauffe. Cette adaptation n’est pas un programme de nettoyage officiel du fabricant.",
   "provenance": {
     "checkedOn": "2026-11-18",
     "sources": [
@@ -87,6 +86,7 @@
         "contribution": "Notice SilverCrest, section 17 : entretien du socle, rinçage, séchage et précautions pour les lames."
       }
     ],
-    "status": "adaptation-a-valider-sur-robot"
+    "status": "adaptation-sourcee",
+    "adaptation": "500 ml et vitesse 5 d’après Technplay ; une goutte et environ 30 secondes d’après Cuisine Pratique. Le choix d’une eau froide ou tiède, limitée à 40 °C et sans chauffe, est propre à cette fiche. Les précautions de nettoyage et de séchage proviennent de la notice SilverCrest ; celle-ci ne décrit pas ce cycle motorisé."
   }
 }

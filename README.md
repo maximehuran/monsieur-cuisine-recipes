@@ -2,11 +2,11 @@
 
 Recettes personnelles pour le Monsieur Cuisine Connect, au format JSON de Toque.
 
-## Première recette
+## Prélavage du bol
 
 [Prélavage doux du bol — sans chauffe](recipes/nettoyage-doux-du-bol.json) : 500 ml d’eau froide ou tiède, une petite goutte de liquide vaisselle doux et un cycle de 30 secondes à vitesse 5, sans chauffe. Il s’agit d’un prélavage maison pour des résidus légers, à compléter par un rinçage et un nettoyage normal.
 
-Cette adaptation est sourcée dans la fiche et reste à tester physiquement sur le robot. Le premier test prévu porte sur le téléchargement et l’affichage. Les sécurités de la machine doivent être validées avant d’exécuter le programme. Une synchronisation ne démarre jamais les lames ou la chauffe.
+La fiche contient les étapes de préparation, le cycle guidé et la finition à la main. Les sources et les choix d’adaptation sont indiqués dans sa provenance. La notice du Connect décrit le nettoyage normal, mais pas ce cycle motorisé : il s’agit d’une adaptation de conseils de prélavage publiés sur le web.
 
 ## Modifier ou ajouter une recette
 
@@ -24,7 +24,7 @@ Accès public sans jeton : `https://api.github.com/repos/maximehuran/monsieur-cu
 
 L’application du robot est maintenue séparément dans le [fork de Toque](https://github.com/maximehuran/MrCuisineVibeConnect). Ses [releases](https://github.com/maximehuran/MrCuisineVibeConnect/releases) incluent les sources JSON configurables ; Toque officiel 0.5.1 ne les inclut pas encore. La [PR nº 16 chez Wuki60](https://github.com/Wuki60/MrCuisineVibeConnect/pull/16) propose cette fonctionnalité au projet principal, indépendamment des réglages propres au fork.
 
-Après l’installation initiale du fork, ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON → Gérer les catalogues personnels**, puis synchroniser. Rechercher « Prélavage » pour vérifier l’import et l’affichage. Les recettes se synchronisent ensuite au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessite aucune recompilation de Toque.
+Après l’installation initiale du fork, ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON → Gérer les catalogues personnels**, puis synchroniser. Rechercher « Prélavage » pour ouvrir la fiche. Les recettes se synchronisent ensuite au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessite aucune recompilation de Toque.
 
 Le fork récupère uniquement les releases officielles publiées de Wuki60, conserve ses fonctionnalités et ne publie un nouvel APK qu’après fusion et tests. Sur le robot, **Rechercher une mise à jour** et la confirmation **Installer** restent manuels et consultent le fork. La synchronisation des recettes reste indépendante. Le [guide du fork](https://github.com/maximehuran/MrCuisineVibeConnect/blob/main/docs/FORK_WORKFLOW.fr.md) décrit le fonctionnement, les limites et la sauvegarde préalable.
 
