@@ -22,17 +22,19 @@ Le catalogue est [catalog.json](catalog.json). Il utilise `toque-recettes-1` et 
 
 Accès public sans jeton : `https://api.github.com/repos/maximehuran/monsieur-cuisine-recipes/contents/catalog.json`, avec l’en-tête `Accept: application/vnd.github.raw+json`.
 
-Toque officiel 0.5.1 ne sait pas encore lire ce dépôt. La [PR nº 16 sur Wuki60/MrCuisineVibeConnect](https://github.com/Wuki60/MrCuisineVibeConnect/pull/16) propose des sources JSON configurables et utilise ce dépôt comme exemple. Elle est en brouillon, avec tests et compilation réussis ; l’interface reste à vérifier sur le robot. Cette fonctionnalité n’est pas encore intégrée à une version officielle.
+L’application du robot est maintenue séparément dans le [fork de Toque](https://github.com/maximehuran/MrCuisineVibeConnect). Ses [releases](https://github.com/maximehuran/MrCuisineVibeConnect/releases) incluent les sources JSON configurables ; Toque officiel 0.5.1 ne les inclut pas encore. La [PR nº 16 chez Wuki60](https://github.com/Wuki60/MrCuisineVibeConnect/pull/16) propose cette fonctionnalité au projet principal, indépendamment des réglages propres au fork.
 
-Si cette contribution est intégrée puis publiée, il suffira de mettre à jour Toque et d’ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON**. Les recettes pourront ensuite se synchroniser au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessitera alors aucune recompilation de Toque.
+Après l’installation initiale du fork, ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON → Gérer les catalogues personnels**, puis synchroniser. Rechercher « Prélavage » pour vérifier l’import et l’affichage. Les recettes se synchronisent ensuite au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessite aucune recompilation de Toque.
+
+Le fork récupère uniquement les releases officielles publiées de Wuki60, conserve ses fonctionnalités et ne publie un nouvel APK qu’après fusion et tests. Sur le robot, **Rechercher une mise à jour** et la confirmation **Installer** restent manuels et consultent le fork. La synchronisation des recettes reste indépendante. Le [guide du fork](https://github.com/maximehuran/MrCuisineVibeConnect/blob/main/docs/FORK_WORKFLOW.fr.md) décrit le fonctionnement, les limites et la sauvegarde préalable.
 
 Les erreurs de téléchargement ou de format conserveront le catalogue précédent. Chaque source disposera d’un espace distinct : la synchronisation Lidl ne supprimera pas les recettes de ce dépôt. Les favoris seront conservés lorsqu’une recette disparaît de la source. Le format proposé est limité à 500 recettes et 2 Mio ; les photos personnalisées ne sont pas téléchargées.
 
 ### Prototype personnel en pause
 
-L’ancienne [version adaptée 0.5.2.1](https://github.com/maximehuran/monsieur-cuisine-recipes/releases/tag/v0.5.2.1) et le correctif `integration/toque-github-recipes.patch` sont conservés pour référence. Leur compilation automatique est désactivée. Ce prototype n’a pas été installé sur le robot pendant cette préparation et ne constitue plus le parcours proposé : la priorité est la contribution au projet officiel. L’action de validation et de publication de `catalog.json` reste active.
+L’ancienne [version adaptée 0.5.2.1](https://github.com/maximehuran/monsieur-cuisine-recipes/releases/tag/v0.5.2.1) et le correctif `integration/toque-github-recipes.patch` sont conservés pour référence. Leur compilation automatique est désactivée. Ce prototype n’a pas été installé sur le robot pendant cette préparation et ne constitue plus le parcours proposé : le parcours actuel utilise le fork applicatif séparé, tout en poursuivant la contribution au projet officiel. L’action de validation et de publication de `catalog.json` reste active.
 
-Les mises à jour des recettes sont distinctes des mises à jour de l’application. La contribution conserve le mécanisme officiel de mise à jour de Toque. Les sources Toque conservent leur licence MIT, reproduite dans [LICENSE.Toque](LICENSE.Toque) et [LICENSE.Monsieur-Cuisine-SDK](LICENSE.Monsieur-Cuisine-SDK).
+Les mises à jour des recettes sont distinctes des mises à jour de l’application. Le fork conserve la confirmation manuelle de mise à jour et utilise ses propres releases. Les sources Toque conservent leur licence MIT, reproduite dans [LICENSE.Toque](LICENSE.Toque) et [LICENSE.Monsieur-Cuisine-SDK](LICENSE.Monsieur-Cuisine-SDK).
 
 ## Sources de la fiche de nettoyage
 
