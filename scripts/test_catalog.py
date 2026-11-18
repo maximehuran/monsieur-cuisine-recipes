@@ -1,0 +1,41 @@
+import copy
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from build_catalog import ROOT, build, validate
+
+
+class CatalogTest(unittest.TestCase):
+    def setUp(self):
+        self.recipe = json.loads((ROOT / 'recipes/nettoyage-doux-du-bol.json').read_text())
+
+    def test_cleaning_recipe_is_unheated_and_requires_review(self):
+        validate(self.recipe)
+        step = next(s for s in self.recipe['steps'] if 'machine' in s)
+        self.assertEqual((30, 5, 0), tuple(step['machine'][k] for k in ['seconds', 'speed', 'tempC']))
+        self.assertTrue(step['needsReview'])
+
+    def test_reject_unsafe_and_unreviewed_settings(self):
+        for key, value in [('speed', 11), ('tempC', 80), ('seconds', -1), ('seconds', True)]:
+            recipe = copy.deepcopy(self.recipe)
+            next(s for s in recipe['steps'] if 'machine' in s)['machine'][key] = value
+            with self.assertRaises(ValueError):
+                validate(recipe)
+        recipe = copy.deepcopy(self.recipe)
+        next(s for s in recipe['steps'] if 'machine' in s)['needsReview'] = False
+        with self.assertRaises(ValueError):
+            validate(recipe)
+
+    def test_stable_revision_and_unique_ids(self):
+        self.assertEqual(build(), build())
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)
+            for name in ['a', 'b']:
+                (path / f'{name}.json').write_text(json.dumps(self.recipe))
+            with self.assertRaises(ValueError):
+                build(path)
+
+
+if __name__ == '__main__':
+    unittest.main()

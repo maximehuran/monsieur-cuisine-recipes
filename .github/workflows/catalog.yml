@@ -23,7 +23,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Valider et produire le catalogue
-        run: python3 scripts/build_catalog.py
+        run: |
+          python3 scripts/test_catalog.py
+          python3 scripts/build_catalog.py
       - name: Publier le catalogue modifié
         run: |
           git config user.name 'github-actions[bot]'

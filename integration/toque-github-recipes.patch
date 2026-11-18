@@ -1,0 +1,467 @@
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+index d915056..f8f57eb 100644
+--- a/app/build.gradle.kts
++++ b/app/build.gradle.kts
+@@ -15,8 +15,8 @@ android {
+         targetSdk = 28
+         // Pour publier une mise à jour : augmenter les deux valeurs puis pousser sur GitHub
+         // (la version est publiée automatiquement, voir .github/workflows/release.yml).
+-        versionCode = 8
+-        versionName = "0.5.1"
++        versionCode = 9
++        versionName = "0.5.2.1"
+     }
+ 
+     signingConfigs {
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index 6c2d769..5bd3e41 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -6,6 +6,7 @@
+     <uses-permission android:name="android.permission.WAKE_LOCK" />
+     <!-- Mises à jour depuis GitHub et mode « Jumeau numérique » (connexion à un PC). -->
+     <uses-permission android:name="android.permission.INTERNET" />
++    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+     <!-- Installation des mises à jour sur un appareil non rooté (Android 8 et plus). -->
+     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+     <!-- Bouton « Retour à Toque » par-dessus l'appli d'origine (le robot n'a pas de bouton Accueil). -->
+diff --git a/app/src/main/assets/lang/en.json b/app/src/main/assets/lang/en.json
+index 8dbe88f..dbeb258 100644
+--- a/app/src/main/assets/lang/en.json
++++ b/app/src/main/assets/lang/en.json
+@@ -415,5 +415,13 @@
+   "Étapes": "Steps",
+   "Étapes %d à %d · %s": "Steps %d to %d · %s",
+   "écriture impossible": "write failed",
+-  "… et %d autres": "… and %d more"
++  "… et %d autres": "… and %d more",
++  "Catalogue GitHub invalide : aucune recette n’a été modifiée.": "Invalid GitHub catalogue: no recipes were changed.",
++  "Synchronisation différée : attendez que le robot soit au repos et la recette terminée.": "Sync deferred: wait until the robot is idle and the recipe has ended.",
++  "%d recettes personnelles à jour": "%d personal recipes up to date",
++  "Synchronisation GitHub impossible : %s": "GitHub sync failed: %s",
++  "Mes recettes GitHub": "My GitHub recipes",
++  "Synchroniser au démarrage et chaque jour": "Sync at startup and every day",
++  "Synchroniser maintenant": "Sync now",
++  "Les recettes restent disponibles hors connexion. Les mises à jour attendent la fin de la recette en cours.": "Recipes remain available offline. Updates wait for the current recipe to end."
+ }
+diff --git a/app/src/main/kotlin/app/toque/Prefs.kt b/app/src/main/kotlin/app/toque/Prefs.kt
+index 1f92922..f9a9991 100644
+--- a/app/src/main/kotlin/app/toque/Prefs.kt
++++ b/app/src/main/kotlin/app/toque/Prefs.kt
+@@ -127,6 +127,18 @@ class Prefs(context: Context) {
+             p.edit().putBoolean("vendorSession", v).commit()
+         }
+ 
++    var personalAutoSync: Boolean
++        get() = p.getBoolean("personalAutoSync", true)
++        set(v) { p.edit().putBoolean("personalAutoSync", v).commit() }
++
++    var personalLastSyncMs: Long
++        get() = p.getLong("personalLastSyncMs", 0)
++        set(v) { p.edit().putLong("personalLastSyncMs", v).commit() }
++
++    var personalSyncResult: String
++        get() = p.getString("personalSyncResult", "") ?: ""
++        set(v) { p.edit().putString("personalSyncResult", v).commit() }
++
+     /** Bouton « Retour à Toque » à afficher : Toque a ouvert une autre appli (robot sans bouton Accueil). */
+     var returnBubble: Boolean
+         get() = p.getBoolean("returnBubble", false)
+diff --git a/app/src/main/kotlin/app/toque/ToqueApp.kt b/app/src/main/kotlin/app/toque/ToqueApp.kt
+index 774e48d..2734a39 100644
+--- a/app/src/main/kotlin/app/toque/ToqueApp.kt
++++ b/app/src/main/kotlin/app/toque/ToqueApp.kt
+@@ -10,6 +10,7 @@ import android.os.Process
+ import app.toque.core.i18n.I18n
+ import app.toque.machine.MachineClient
+ import app.toque.recipes.RecipeRepo
++import app.toque.recipes.PersonalSync
+ import app.toque.ui.MainActivity
+ import java.util.Locale
+ 
+@@ -48,6 +49,7 @@ class ToqueApp : Application() {
+         }
+         log.write("interface", "démarrage")
+         TimeSync.start(this, prefs, log)
++        PersonalSync.start(this)
+     }
+ 
+     private fun isMainProcess(): Boolean {
+diff --git a/app/src/main/kotlin/app/toque/recipes/PersonalSync.kt b/app/src/main/kotlin/app/toque/recipes/PersonalSync.kt
+new file mode 100644
+index 0000000..200970c
+--- /dev/null
++++ b/app/src/main/kotlin/app/toque/recipes/PersonalSync.kt
+@@ -0,0 +1,97 @@
++package app.toque.recipes
++
++import android.content.Context
++import android.net.ConnectivityManager
++import android.os.Handler
++import android.os.Looper
++import android.os.SystemClock
++import app.toque.Http
++import app.toque.ToqueApp
++import app.toque.core.i18n.tr
++import app.toque.core.recipes.PersonalCatalog
++import java.util.concurrent.atomic.AtomicBoolean
++
++/** Un catalogue de données : ce composant n'envoie aucune commande au moteur. */
++object PersonalSync {
++    private val main = Handler(Looper.getMainLooper())
++    private val running = AtomicBoolean(false)
++    private var started = false
++    private var startupPending = true
++    private var lastAttempt = -900_000L
++
++    private fun idle(app: ToqueApp): Boolean = app.machine.connected &&
++        !app.machine.snapshot.busy && app.prefs.guidedRecipe.isBlank()
++
++    /** Appel et résultat sur le fil de l'interface ; téléchargement et analyse hors de ce fil. */
++    fun sync(app: ToqueApp, done: (Boolean, String) -> Unit = { _, _ -> }) {
++        check(Looper.myLooper() == Looper.getMainLooper())
++        if (!idle(app)) {
++            done(false, tr("Synchronisation différée : attendez que le robot soit au repos et la recette terminée."))
++            return
++        }
++        if (!running.compareAndSet(false, true)) {
++            done(false, tr("Synchronisation déjà en cours"))
++            return
++        }
++        Thread {
++            try {
++                val text = Http.get(PersonalCatalog.URL,
++                    mapOf("Accept" to "application/vnd.github.raw+json"),
++                    timeoutMs = 20_000, maxBytes = 2 * 1024 * 1024).body
++                val recipes = PersonalCatalog.parse(text)
++                main.post {
++                    try {
++                        if (!idle(app)) {
++                            done(false, tr("Synchronisation différée : attendez que le robot soit au repos et la recette terminée."))
++                        } else {
++                            app.recipes.replacePersonal(recipes)
++                            app.prefs.personalLastSyncMs = System.currentTimeMillis()
++                            val message = tr("%d recettes personnelles à jour", recipes.size)
++                            app.prefs.personalSyncResult = message
++                            app.log.write("github", message)
++                            startupPending = false
++                            done(true, message)
++                        }
++                    } catch (e: Exception) {
++                        reportError(app, e, done)
++                    } finally { running.set(false) }
++                }
++            } catch (e: Exception) {
++                main.post {
++                    try { reportError(app, e, done) } finally { running.set(false) }
++                }
++            }
++        }.start()
++    }
++
++    private fun reportError(app: ToqueApp, error: Exception, done: (Boolean, String) -> Unit) {
++        val message = tr("Synchronisation GitHub impossible : %s", error.message ?: error.toString())
++        app.prefs.personalSyncResult = message
++        app.log.crash("github", error)
++        done(false, message)
++    }
++
++    /** Au démarrage, puis chaque jour pendant que Toque est ouvert ; reprise si le Wi-Fi arrive tard. */
++    @Suppress("DEPRECATION")
++    fun start(app: ToqueApp) {
++        if (started) return
++        started = true
++        val tick = object : Runnable {
++            override fun run() {
++                try {
++                    val now = System.currentTimeMillis()
++                    val elapsed = SystemClock.elapsedRealtime()
++                    val network = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
++                    val due = startupPending || now - app.prefs.personalLastSyncMs >= 86_400_000L
++                    if (app.prefs.personalAutoSync && due && now >= 1_735_689_600_000L &&
++                        network.activeNetworkInfo?.isConnected == true && idle(app) &&
++                        !running.get() && elapsed - lastAttempt >= 900_000L) {
++                        lastAttempt = elapsed
++                        sync(app)
++                    }
++                } finally { main.postDelayed(this, 60_000L) }
++            }
++        }
++        main.postDelayed(tick, 30_000L)
++    }
++}
+diff --git a/app/src/main/kotlin/app/toque/recipes/RecipeRepo.kt b/app/src/main/kotlin/app/toque/recipes/RecipeRepo.kt
+index bac745b..ac99b15 100644
+--- a/app/src/main/kotlin/app/toque/recipes/RecipeRepo.kt
++++ b/app/src/main/kotlin/app/toque/recipes/RecipeRepo.kt
+@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
+ import android.os.Handler
+ import android.os.Looper
+ import app.toque.core.recipes.Recipe
++import app.toque.core.recipes.PersonalCatalog
+ import app.toque.core.recipes.RecipeCodec
+ import app.toque.core.recipes.RecipeSource
+ import app.toque.core.recipes.SearchIndex
+@@ -110,7 +111,7 @@ class RecipeRepo(private val context: Context) {
+         val db = helper.writableDatabase
+         db.beginTransaction()
+         try {
+-            db.delete("recipes", null, null)
++            db.delete("recipes", "id NOT LIKE ?", arrayOf("${PersonalCatalog.PREFIX}%"))
+             val now = System.currentTimeMillis()
+             for (r in recipes) {
+                 val v = ContentValues()
+@@ -163,7 +164,7 @@ class RecipeRepo(private val context: Context) {
+         exec.submit {
+             val db = helper.writableDatabase
+             val gone = ArrayList<String>()
+-            db.rawQuery("SELECT id FROM recipes", null).use { c -> while (c.moveToNext()) c.getString(0).let { if (it !in keep) gone += it } }
++            db.rawQuery("SELECT id FROM recipes", null).use { c -> while (c.moveToNext()) c.getString(0).let { if (!PersonalCatalog.keepDuringLidl(it, keep)) gone += it } }
+             db.beginTransaction()
+             try {
+                 for (id in gone) db.delete("recipes", "id = ?", arrayOf(id))
+@@ -175,6 +176,34 @@ class RecipeRepo(private val context: Context) {
+         }.get()
+     }
+ 
++    /** Remplace uniquement le catalogue personnel en transaction ; les favoris sont séparés. */
++    fun replacePersonal(recipes: List<Recipe>) {
++        require(recipes.all { PersonalCatalog.isPersonal(it.id) })
++        exec.submit {
++            val db = helper.writableDatabase
++            db.beginTransaction()
++            try {
++                val keep = recipes.map { it.id }.toHashSet()
++                val gone = ArrayList<String>()
++                db.rawQuery("SELECT id FROM recipes WHERE id LIKE ?", arrayOf("${PersonalCatalog.PREFIX}%")).use { c ->
++                    while (c.moveToNext()) c.getString(0).let { if (it !in keep) gone += it }
++                }
++                for (id in gone) db.delete("recipes", "id = ?", arrayOf(id))
++                val now = System.currentTimeMillis()
++                for (r in recipes) {
++                    val values = ContentValues()
++                    values.put("id", r.id)
++                    values.put("title", r.title)
++                    values.put("json", RecipeCodec.encode(r.copy(favorite = false)))
++                    values.put("updated", now)
++                    check(db.insertWithOnConflict("recipes", null, values, SQLiteDatabase.CONFLICT_REPLACE) != -1L)
++                }
++                db.setTransactionSuccessful()
++            } finally { db.endTransaction() }
++            rebuild()
++        }.get()
++    }
++
+     /** Recharge l'index de recherche (après des mises à jour sans [rebuild]). */
+     fun refresh() {
+         exec.submit { rebuild() }.get()
+diff --git a/app/src/main/kotlin/app/toque/ui/screens/SettingsScreen.kt b/app/src/main/kotlin/app/toque/ui/screens/SettingsScreen.kt
+index ab5bfbc..4898929 100644
+--- a/app/src/main/kotlin/app/toque/ui/screens/SettingsScreen.kt
++++ b/app/src/main/kotlin/app/toque/ui/screens/SettingsScreen.kt
+@@ -22,6 +22,8 @@ import app.toque.core.time.ZoneLookup
+ import app.toque.core.update.Release
+ import app.toque.recipes.LidlSync
+ import app.toque.recipes.OnlineSync
++import app.toque.recipes.PersonalSync
++import app.toque.core.recipes.PersonalCatalog
+ import app.toque.ui.Icon
+ import app.toque.ui.MainActivity
+ import app.toque.ui.Screen
+@@ -35,6 +37,8 @@ class SettingsScreen(a: MainActivity) : Screen(a) {
+     private lateinit var host: EditText
+     private lateinit var port: EditText
+     private lateinit var syncText: TextView
++    private lateinit var personalText: TextView
++    private var personalSyncing = false
+     private lateinit var bowlText: TextView
+     private lateinit var linkText: TextView
+     private lateinit var timeText: TextView
+@@ -135,6 +139,29 @@ class SettingsScreen(a: MainActivity) : Screen(a) {
+         lidl.addView(b2, Ui.lp(t = 6))
+         lidl.addView(toggle(tr("Synchro automatique chaque nuit"), a.prefs.autoSync) { a.prefs.autoSync = it }, Ui.lp(t = 10))
+ 
++        // ---- Catalogue personnel
++        val personal = section(right, tr("Mes recettes GitHub"), Icon.Kind.SYNC)
++        personal.addView(Ui.text(c, PersonalCatalog.REPOSITORY, 16f, Ui.TEXT2))
++        personalText = Ui.text(c, "", 16f, Ui.TEXT)
++        personal.addView(personalText, Ui.lp(t = 10))
++        personal.addView(toggle(tr("Synchroniser au démarrage et chaque jour"), a.prefs.personalAutoSync) {
++            a.prefs.personalAutoSync = it
++        }, Ui.lp(t = 10))
++        personal.addView(Ui.button(c, tr("Synchroniser maintenant"), Ui.Style.PRIMARY, Icon.Kind.SYNC, height = 58) {
++            if (!personalSyncing) {
++                personalSyncing = true
++                personalText.text = tr("Synchronisation en cours… (quelques minutes)")
++                PersonalSync.sync(a.app) { ok, message ->
++                    personalSyncing = false
++                    refreshPersonal()
++                    a.toast(message, if (ok) Ui.OK else Ui.WARN)
++                }
++            }
++        }, Ui.lp(Ui.WRAP, Ui.WRAP, t = 10))
++        personal.addView(Ui.text(c, tr("Les recettes restent disponibles hors connexion. Les mises à jour attendent la fin de la recette en cours."),
++            14f, Ui.TEXT3), Ui.lp(t = 10))
++        refreshPersonal()
++
+         // ---- Mises à jour
+         val updates = section(left, tr("Mises à jour"), Icon.Kind.INFO)
+         updText = Ui.text(c, "", 16f, Ui.TEXT2).apply { setLineSpacing(0f, 1.15f) }
+@@ -379,6 +406,10 @@ class SettingsScreen(a: MainActivity) : Screen(a) {
+             "\n" + tr("%d recettes dans Toque", a.app.recipes.count)
+     }
+ 
++    private fun refreshPersonal() {
++        personalText.text = a.prefs.personalSyncResult.ifEmpty { tr("Jamais synchronisé") }
++    }
++
+     // ------------------------------------------------------------------ mises à jour
+ 
+     private fun renderUpdate() {
+@@ -486,6 +517,7 @@ class SettingsScreen(a: MainActivity) : Screen(a) {
+     }
+ 
+     override fun onSnapshot(s: Snapshot) {
++        if (!personalSyncing) refreshPersonal()
+         bowlText.text = if (s.hasSample) tr("Capteur du bol en ce moment : %s. Vérifiez qu'il change quand vous retirez le bol avant d'activer cette option.",
+             if (s.bowlDetected) tr("bol détecté") else tr("bol NON détecté")) else tr("Base non connectée")
+     }
+diff --git a/core/src/main/kotlin/app/toque/core/recipes/PersonalCatalog.kt b/core/src/main/kotlin/app/toque/core/recipes/PersonalCatalog.kt
+new file mode 100644
+index 0000000..e72b275
+--- /dev/null
++++ b/core/src/main/kotlin/app/toque/core/recipes/PersonalCatalog.kt
+@@ -0,0 +1,60 @@
++package app.toque.core.recipes
++
++import app.toque.core.i18n.tr
++import app.toque.core.json.Json
++import app.toque.core.json.obj
++
++/** Catalogue personnel indépendant du catalogue Lidl, sans commande d'exécution distante. */
++object PersonalCatalog {
++    const val REPOSITORY = "maximehuran/monsieur-cuisine-recipes"
++    const val URL = "https://api.github.com/repos/$REPOSITORY/contents/catalog.json"
++    const val PREFIX = "perso-"
++    private val idPattern = Regex("perso-[a-z0-9][a-z0-9-]{0,95}")
++
++    fun isPersonal(id: String): Boolean = id.startsWith(PREFIX)
++    fun keepDuringLidl(id: String, keep: Set<String>): Boolean = isPersonal(id) || id in keep
++
++    private fun check(condition: Boolean) {
++        require(condition) { tr("Catalogue GitHub invalide : aucune recette n’a été modifiée.") }
++    }
++
++    private fun integer(value: Any?, range: IntRange): Boolean {
++        val n = value as? Number ?: return false
++        val d = n.toDouble()
++        return d.isFinite() && d == n.toInt().toDouble() && n.toInt() in range
++    }
++
++    /** Refuse tout le catalogue si une entrée est invalide ; aucune importation partielle. */
++    fun parse(text: String): List<Recipe> {
++        val root = Json.parse(text).obj()
++        check(root["format"] == RecipeCodec.FORMAT)
++        val entries = root["recipes"] as? List<*> ?: throw IllegalArgumentException(tr("Catalogue GitHub invalide : aucune recette n’a été modifiée."))
++        check(entries.size <= 500)
++        val seen = HashSet<String>()
++        return entries.map { entry ->
++            check(entry is Map<*, *>)
++            val m = entry.obj()
++            val id = m["id"] as? String ?: ""
++            check(idPattern.matches(id) && seen.add(id) && m["source"] == "user")
++            val steps = m["steps"] as? List<*> ?: emptyList<Any?>()
++            check(steps.isNotEmpty() && steps.size <= 500)
++            for (step in steps) {
++                val s = step.obj()
++                check((s["text"] as? String)?.isNotBlank() == true)
++                s["weigh"]?.let { weigh -> check(weigh is Map<*, *> && integer(weigh.obj()["grams"], 1..5000)) }
++                s["machine"]?.let { machine ->
++                    check(machine is Map<*, *>)
++                    val mc = machine.obj()
++                    check(StepProgram.of(mc["program"] as? String) != null)
++                    check(integer(mc["seconds"], 1..5940) && integer(mc["speed"], 0..10) && integer(mc["tempC"], 0..130))
++                    check(mc["reverse"] == null || mc["reverse"] is Boolean)
++                    check(mc["accessory"] == null || mc["accessory"] in listOf("blade", "whisk"))
++                }
++            }
++            val r = RecipeCodec.fromMap(m, RecipeSource.USER)
++            check(r != null && r.steps.size == steps.size && r.steps.all { it.machine?.valid != false })
++            r!!.copy(source = RecipeSource.USER, favorite = false,
++                steps = r.steps.map { it.copy(needsReview = it.machine != null || it.needsReview) })
++        }
++    }
++}
+diff --git a/core/src/main/kotlin/app/toque/core/update/Releases.kt b/core/src/main/kotlin/app/toque/core/update/Releases.kt
+index 5ea7b73..db4a23e 100644
+--- a/core/src/main/kotlin/app/toque/core/update/Releases.kt
++++ b/core/src/main/kotlin/app/toque/core/update/Releases.kt
+@@ -15,7 +15,7 @@ data class Release(
+ 
+ /** Lecture de l'API GitHub « dernière version » et comparaison de numéros de version. */
+ object Releases {
+-    const val REPO = "Wuki60/MrCuisineVibeConnect"
++    const val REPO = "maximehuran/monsieur-cuisine-recipes"
+     const val LATEST_URL = "https://api.github.com/repos/$REPO/releases/latest"
+     const val PAGE_URL = "https://github.com/$REPO/releases"
+ 
+diff --git a/core/src/test/kotlin/app/toque/core/PersonalCatalogTest.kt b/core/src/test/kotlin/app/toque/core/PersonalCatalogTest.kt
+new file mode 100644
+index 0000000..e84f938
+--- /dev/null
++++ b/core/src/test/kotlin/app/toque/core/PersonalCatalogTest.kt
+@@ -0,0 +1,54 @@
++package app.toque.core
++
++import app.toque.core.recipes.PersonalCatalog
++import app.toque.core.recipes.RecipeSource
++import org.junit.Assert.*
++import org.junit.Test
++import org.junit.Assume.assumeNotNull
++import java.io.File
++
++class PersonalCatalogTest {
++    private val recipe = """{"id":"perso-test","title":"Essai","source":"user","steps":[{"text":"Vérifier avant de lancer","machine":{"program":"manuel","seconds":30,"speed":5,"tempC":0,"reverse":false,"accessory":"blade"}}]}"""
++    private fun catalog(vararg recipes: String) = """{"format":"toque-recettes-1","recipes":[${recipes.joinToString(",")}]}"""
++    private fun refused(text: String) {
++        try { PersonalCatalog.parse(text); fail("Le catalogue devait être refusé") } catch (_: IllegalArgumentException) { }
++    }
++
++    @Test fun personalRecipeKeepsGuidedSettingsAndAlwaysRequiresReview() {
++        val r = PersonalCatalog.parse(catalog(recipe)).single()
++        assertEquals(RecipeSource.USER, r.source)
++        assertEquals(30, r.steps.single().machine!!.seconds)
++        assertTrue(r.steps.single().needsReview)
++    }
++    @Test fun importedIdsAndDuplicateIdsAreRejected() {
++        refused(catalog(recipe.replace("perso-test", "web-123")))
++        refused(catalog(recipe, recipe))
++    }
++    @Test fun unsafeOrSilentlyDroppedMachineSettingsAreRejected() {
++        refused(catalog(recipe.replace("\"speed\":5", "\"speed\":11")))
++        refused(catalog(recipe.replace("\"tempC\":0", "\"tempC\":80")))
++        refused(catalog(recipe.replace("\"program\":\"manuel\"", "\"program\":\"inconnu\"")))
++        refused(catalog(recipe.replace("\"seconds\":30", "\"seconds\":-30")))
++        refused(catalog(recipe.replace("\"seconds\":30", "\"seconds\":1.5")))
++    }
++    @Test fun badCatalogNeverBecomesAnEmptySuccessfulImport() {
++        refused("{}")
++        refused("""{"format":"toque-recettes-1","recipes":null}""")
++        refused(catalog(recipe, "{}"))
++        assertTrue(PersonalCatalog.parse(catalog()).isEmpty())
++    }
++    @Test fun lidlReconciliationPreservesPersonalRecipes() {
++        assertTrue(PersonalCatalog.keepDuringLidl("perso-test", emptySet()))
++        assertTrue(PersonalCatalog.keepDuringLidl("web-123", setOf("web-123")))
++        assertFalse(PersonalCatalog.keepDuringLidl("web-456", setOf("web-123")))
++    }
++    @Test fun publishedCatalogContainsAnExecutableReviewedTestRecipe() {
++        val path = System.getenv("PERSONAL_CATALOG_PATH")
++        assumeNotNull(path)
++        val recipes = PersonalCatalog.parse(File(path!!).readText())
++        assertTrue(recipes.isNotEmpty())
++        val clean = recipes.first { it.id == "perso-nettoyage-doux-du-bol" }
++        assertTrue(clean.steps.any { it.machine != null })
++        assertTrue(clean.steps.all { it.machine == null || it.needsReview && it.machine!!.valid })
++    }
++}

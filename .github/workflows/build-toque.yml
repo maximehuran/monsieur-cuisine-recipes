@@ -1,0 +1,55 @@
+name: Compiler Toque avec les recettes GitHub
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'integration/**'
+      - '.github/workflows/build-toque.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: build-toque
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Vérifier les recettes
+        run: |
+          python3 scripts/test_catalog.py
+          python3 scripts/build_catalog.py --check
+      - name: Préparer les sources précises de Toque
+        run: |
+          git clone https://github.com/flexbox/MrCuisineVibeConnect.git toque-build
+          cd toque-build
+          git checkout a26d9d7b7da24cd5d1abba014ef914bb1bdf6cbd
+          git apply --check ../integration/toque-github-recipes.patch
+          git apply ../integration/toque-github-recipes.patch
+      - name: Tests et compilation Android 6
+        working-directory: toque-build
+        env:
+          PERSONAL_CATALOG_PATH: ${{ github.workspace }}/catalog.json
+        run: ./gradlew --no-daemon :core:test :app:assembleRelease
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rapports-tests-toque
+          path: toque-build/core/build/reports/tests/test/
+      - name: Publier l’application à installer manuellement
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' toque-build/app/build.gradle.kts)
+          if gh release view "v$version" >/dev/null 2>&1; then
+            echo "Cette version existe déjà : incrémenter versionCode et versionName dans le correctif."
+            exit 1
+          fi
+          cp toque-build/app/build/outputs/apk/release/app-release.apk "Toque-recettes-$version.apk"
+          sha256sum "Toque-recettes-$version.apk" > SHA256SUMS.txt
+          gh release create "v$version" "Toque-recettes-$version.apk" SHA256SUMS.txt --title "Toque $version — recettes GitHub" --notes-file integration/RELEASE_NOTES.md --target "$GITHUB_SHA"
