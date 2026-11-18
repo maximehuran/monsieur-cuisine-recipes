@@ -1,0 +1,36 @@
+name: Vérifier et publier les recettes
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/**'
+      - 'scripts/**'
+      - '.github/workflows/catalog.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: recipe-catalog
+  cancel-in-progress: false
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Valider et produire le catalogue
+        run: python3 scripts/build_catalog.py
+      - name: Publier le catalogue modifié
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add catalog.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'Mettre à jour le catalogue de recettes'
+          git push origin HEAD:main

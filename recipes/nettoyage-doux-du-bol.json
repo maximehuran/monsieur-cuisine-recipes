@@ -1,0 +1,92 @@
+{
+  "id": "perso-nettoyage-doux-du-bol",
+  "title": "Prélavage doux du bol — sans chauffe",
+  "category": "Entretien",
+  "tags": [
+    "nettoyage",
+    "prélavage",
+    "test GitHub"
+  ],
+  "servings": 0,
+  "prepMinutes": 2,
+  "totalMinutes": 5,
+  "difficulty": 1,
+  "source": "user",
+  "author": "Recettes personnelles",
+  "image": "",
+  "ingredients": [
+    {
+      "group": "Pour le prélavage",
+      "items": [
+        {
+          "qty": "500",
+          "unit": "ml",
+          "name": "eau froide ou tiède",
+          "note": "40 °C maximum ; laisser refroidir le bol avant de commencer"
+        },
+        {
+          "qty": "1",
+          "unit": "petite goutte",
+          "name": "liquide vaisselle doux",
+          "note": "produit pour lavage à la main, peu moussant"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "text": "Le premier test de cette fiche consiste à vérifier sa synchronisation et son affichage. Exécuter le cycle seulement après validation des sécurités du robot. Retirer les gros résidus avec une spatule adaptée, moteur arrêté, sans toucher les lames."
+    },
+    {
+      "text": "Garder le couteau correctement monté avec son joint. Retirer le fouet et les paniers. Vérifier que le bol est correctement installé et que ses contacts extérieurs sont secs."
+    },
+    {
+      "text": "Verser 500 ml d’eau froide ou tiède, jamais bouillante, dans le bol.",
+      "weigh": {
+        "label": "Eau pour le prélavage",
+        "grams": 500
+      }
+    },
+    {
+      "text": "Ajouter une seule petite goutte de liquide vaisselle doux. Fermer et verrouiller le couvercle, gobelet doseur en place."
+    },
+    {
+      "text": "Après vérification du bol, du couvercle et du gobelet, lancer 30 secondes à vitesse 5, sans chauffe et sans fouet. Rester près du robot et arrêter si de la mousse déborde.",
+      "machine": {
+        "program": "manuel",
+        "seconds": 30,
+        "speed": 5,
+        "tempC": 0,
+        "reverse": false,
+        "accessory": "blade",
+        "pulses": 0
+      },
+      "needsReview": true
+    },
+    {
+      "text": "Attendre l’arrêt complet des lames. Retirer le bol, vider l’eau savonneuse, puis rincer le bol, le couvercle et le gobelet à l’eau claire. Terminer à la main avec une brosse si des résidus subsistent."
+    },
+    {
+      "text": "Pour essuyer le socle ou démonter des accessoires, éteindre et débrancher l’appareil. Nettoyer le socle avec un chiffon légèrement humide, puis sécher ; ne jamais l’immerger. Laisser sécher les contacts du bol avant remise en place."
+    }
+  ],
+  "notes": "Prélavage maison pour des salissures légères, à compléter par un nettoyage normal. Ce cycle ne désinfecte pas et ne traite pas les dépôts brûlés. Adaptation non testée physiquement sur ce robot : 500 ml et vitesse 5 d’après Technplay ; cycle court de 30 s d’après Cuisine Pratique. Eau limitée à 40 °C et chauffe désactivée pour ce premier test. Ne pas mélanger de produits de nettoyage.",
+  "provenance": {
+    "checkedOn": "2026-11-18",
+    "sources": [
+      {
+        "url": "https://technplay.com/test-monsieur-cuisine-lidl/",
+        "contribution": "Prélavage du Connect avec environ 500 ml d’eau, liquide vaisselle et vitesse 5."
+      },
+      {
+        "url": "https://cuisine-pratique.com/blogs/robot-cuisine-et-air-fryer/comment-nettoyer-monsieur-cuisine-connect",
+        "contribution": "Cycle court d’environ 30 secondes ; rinçage et finition nécessaires."
+      },
+      {
+        "url": "https://mode-emploi.info/wp-content/uploads/2022/06/Notice-dutilisation-SKMC-1200-B2-1.pdf",
+        "contribution": "Notice SilverCrest, section 17 : entretien du socle, rinçage, séchage et précautions pour les lames."
+      }
+    ],
+    "status": "adaptation-a-valider-sur-robot"
+  }
+}
