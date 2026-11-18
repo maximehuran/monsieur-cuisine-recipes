@@ -4,11 +4,7 @@ Recettes personnelles pour le Monsieur Cuisine Connect, au format JSON de Toque.
 
 ## Nettoyage du bol
 
-[Nettoyage du bol — prélavage, lavage et aide au séchage](recipes/nettoyage-doux-du-bol.json) : trois cycles de 500 ml, avec vidange entre les cycles. Prélavage à l’eau claire, lavage avec une petite goutte de liquide vaisselle, puis rinçage : 30 secondes à vitesse 5, sans chauffe, pour chaque cycle.
-
-La fiche inclut une étape personnalisée après vidange : **2 minutes à 37 °C, vitesse 1**, avec confirmation dans Toque. Ce fonctionnement à vide est hors recommandations du fabricant, non validé physiquement et non recommandé par les sources citées. Il peut être passé pour suivre la notice. Aucun contrôle du bol ou du couvercle n’est modifié. Cette étape ne garantit pas un séchage complet et ne remplace pas le nettoyage du couteau et des joints. Terminer par la finition selon la notice et laisser les pièces sécher à l’air libre.
-
-Les sources et les choix d’adaptation sont distingués dans la provenance de la fiche. La durée de 10 minutes est indicative, hors finition et séchage complet. L’identifiant de la recette est conservé lors de cette évolution.
+[Nettoyage du bol et des ustensiles — lavage et séchage](recipes/nettoyage-doux-du-bol.json) : à lancer juste après une recette, avec le panier et les ustensiles dans le bol. Prélavage, lavage avec une goutte de liquide vaisselle, rinçage de la mousse au robinet puis rinçage : trois cycles de 500 ml, 30 secondes à vitesse 5. Séchage final de 2 minutes à 37 °C, vitesse 1.
 
 ## Modifier ou ajouter une recette
 
@@ -26,7 +22,7 @@ Accès public sans jeton : `https://api.github.com/repos/maximehuran/monsieur-cu
 
 L’application du robot est maintenue séparément dans le [fork de Toque](https://github.com/maximehuran/MrCuisineVibeConnect). Ses [releases](https://github.com/maximehuran/MrCuisineVibeConnect/releases) incluent les sources JSON configurables ; Toque officiel 0.5.1 ne les inclut pas encore. La [PR nº 16 chez Wuki60](https://github.com/Wuki60/MrCuisineVibeConnect/pull/16) propose cette fonctionnalité au projet principal, indépendamment des réglages propres au fork.
 
-Après l’installation initiale du fork, ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON → Gérer les catalogues personnels**, puis synchroniser. Rechercher « Prélavage » pour ouvrir la fiche. Les recettes se synchronisent ensuite au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessite aucune recompilation de Toque.
+Après l’installation initiale du fork, ajouter l’adresse ci-dessus dans **Réglages → Sources de recettes JSON → Gérer les catalogues personnels**, puis synchroniser. Rechercher « Nettoyage » pour ouvrir la fiche. Les recettes se synchronisent ensuite au démarrage et chaque jour quand l’application est ouverte, connectée et au repos, hors recette guidée en cours. Modifier les recettes dans ce dépôt ne nécessite aucune recompilation de Toque.
 
 Le fork récupère uniquement les releases officielles publiées de Wuki60, conserve ses fonctionnalités et ne publie un nouvel APK qu’après fusion et tests. Sur le robot, **Rechercher une mise à jour** et la confirmation **Installer** restent manuels et consultent le fork. La synchronisation des recettes reste indépendante. Le [guide du fork](https://github.com/maximehuran/MrCuisineVibeConnect/blob/main/docs/FORK_WORKFLOW.fr.md) décrit le fonctionnement, les limites et la sauvegarde préalable.
 
@@ -42,6 +38,5 @@ Les mises à jour des recettes sont distinctes des mises à jour de l’applicat
 
 - [Test du Connect par Technplay](https://technplay.com/test-monsieur-cuisine-lidl/) : prélavage avec 500 ml d’eau et vitesse 5.
 - [Guide Cuisine Pratique](https://cuisine-pratique.com/blogs/robot-cuisine-et-air-fryer/comment-nettoyer-monsieur-cuisine-connect) : cycle court d’environ 30 secondes, puis rinçage.
-- [Notice SilverCrest SKMC 1200 B2, section 17](https://mode-emploi.info/wp-content/uploads/2022/06/Notice-dutilisation-SKMC-1200-B2-1.pdf) : entretien, précautions pour les lames et séchage.
 
-La routine proposée est une adaptation de ces sources, pas un programme de nettoyage officiel du fabricant. L’étape d’aide au séchage après vidange est une personnalisation distincte, hors notice ; aucune de ces sources ne la valide.
+La routine est une adaptation personnelle de ces sources, testée sur le robot.
