@@ -22,7 +22,13 @@ Le catalogue est [catalog.json](catalog.json). Il utilise `toque-recettes-1` et 
 
 Accès public sans jeton : `https://api.github.com/repos/maximehuran/monsieur-cuisine-recipes/contents/catalog.json`, avec l’en-tête `Accept: application/vnd.github.raw+json`.
 
-Toque officiel 0.5.1 ne sait pas encore lire ce dépôt. L’intégration en préparation est un petit correctif appliqué à une révision précise des sources de Toque, sans créer ici une copie complète du projet. Une installation initiale de cette version adaptée sera nécessaire ; ensuite, seules les recettes se synchroniseront automatiquement. Les étapes restent déclenchées par l’utilisateur sur le robot.
+Toque officiel 0.5.1 ne sait pas encore lire ce dépôt. La version adaptée [Toque 0.5.2.1](https://github.com/maximehuran/monsieur-cuisine-recipes/releases/tag/v0.5.2.1) est compilée à partir d’une révision précise des sources et du petit correctif contenu dans `integration/toque-github-recipes.patch`. Aucune copie complète du projet Toque n’est conservée ici. Ce correctif reste une adaptation à entretenir lors d’un changement de version de base.
+
+Une installation initiale de cet APK par-dessus Toque est nécessaire. Ensuite : **Réglages → Mes recettes GitHub → Synchroniser maintenant**, puis rechercher « Prélavage ». Le robot vérifie aussi le dépôt au démarrage et chaque jour tant que Toque est ouvert, connecté et au repos, hors recette guidée en cours. Les réglages de cuisson restent déclenchés par l’utilisateur.
+
+Les erreurs de téléchargement ou de format laissent les recettes précédentes disponibles. Les synchronisations Lidl préservent les identifiants personnels `perso-…`. Le catalogue est limité à 500 recettes et 2 Mio. Cette première intégration ne télécharge pas les photos des recettes personnelles.
+
+Les mises à jour de recettes ne mettent pas l’application à jour. Le bouton de mise à jour de cette version adaptée consulte uniquement les versions publiées dans ce dépôt. Les sources Toque conservent leur licence MIT, reproduite dans [LICENSE.Toque](LICENSE.Toque) et [LICENSE.Monsieur-Cuisine-SDK](LICENSE.Monsieur-Cuisine-SDK).
 
 ## Sources de la fiche de nettoyage
 

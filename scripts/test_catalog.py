@@ -36,6 +36,13 @@ class CatalogTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 build(path)
 
+    def test_ids_are_accepted_by_the_android_client(self):
+        for value in ['web-123', 'perso-éponge', 'perso-', 'perso-A', 'perso-' + 'a' * 97]:
+            recipe = copy.deepcopy(self.recipe)
+            recipe['id'] = value
+            with self.assertRaises(ValueError):
+                validate(recipe)
+
 
 if __name__ == '__main__':
     unittest.main()

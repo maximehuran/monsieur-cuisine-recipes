@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,13 +19,13 @@ def validate(recipe):
     if not isinstance(recipe, dict):
         raise ValueError("Une recette doit être un objet JSON")
     recipe_id = recipe.get("id", "")
-    if not isinstance(recipe_id, str) or not recipe_id.startswith("perso-") or len(recipe_id) < 7:
+    if not isinstance(recipe_id, str) or not re.fullmatch(r"perso-[a-z0-9][a-z0-9-]{0,95}", recipe_id):
         raise ValueError("L’identifiant stable doit commencer par perso-")
     if not isinstance(recipe.get("title"), str) or not recipe["title"].strip():
         raise ValueError("Titre manquant")
     if recipe.get("source") != "user":
         raise ValueError("La source d’une recette personnelle doit être user")
-    if not isinstance(recipe.get("ingredients"), list) or not isinstance(recipe.get("steps"), list) or not recipe["steps"]:
+    if not isinstance(recipe.get("ingredients"), list) or not isinstance(recipe.get("steps"), list) or not 1 <= len(recipe["steps"]) <= 500:
         raise ValueError("Ingrédients et étapes requis")
     for step in recipe["steps"]:
         if not isinstance(step, dict) or not isinstance(step.get("text"), str) or not step["text"].strip():
@@ -67,6 +68,8 @@ def build(directory=ROOT / "recipes"):
             raise ValueError(f"Identifiant dupliqué : {recipe['id']}")
         seen.add(recipe["id"])
         recipes.append(recipe)
+    if len(recipes) > 500:
+        raise ValueError("Le catalogue est limité à 500 recettes personnelles")
     canonical = json.dumps(recipes, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
     return {"format": "toque-recettes-1", "revision": hashlib.sha256(canonical).hexdigest(), "recipes": recipes}
 
@@ -76,6 +79,8 @@ if __name__ == "__main__":
     parser.add_argument("--check", action="store_true", help="Vérifier le catalogue existant sans l’écrire")
     args = parser.parse_args()
     output = json.dumps(build(), ensure_ascii=False, indent=2) + "\n"
+    if len(output.encode("utf-8")) > 2 * 1024 * 1024:
+        raise SystemExit("Le catalogue dépasse la limite de 2 Mio du client Android")
     target = ROOT / "catalog.json"
     if args.check:
         if not target.is_file() or target.read_text(encoding="utf-8") != output:
