@@ -10,11 +10,20 @@ class CatalogTest(unittest.TestCase):
     def setUp(self):
         self.recipe = json.loads((ROOT / 'recipes/nettoyage-doux-du-bol.json').read_text())
 
-    def test_cleaning_recipe_is_unheated_and_requires_review(self):
+    def test_cleaning_recipe_limits_and_explicit_review(self):
         validate(self.recipe)
-        step = next(s for s in self.recipe['steps'] if 'machine' in s)
-        self.assertEqual((30, 5, 0), tuple(step['machine'][k] for k in ['seconds', 'speed', 'tempC']))
-        self.assertTrue(step['needsReview'])
+        steps = [s for s in self.recipe['steps'] if 'machine' in s]
+        for step in steps:
+            self.assertTrue(step['needsReview'])
+            machine = step['machine']
+            if machine['tempC'] == 0:
+                self.assertEqual((30, 5), (machine['seconds'], machine['speed']))
+            else:
+                self.assertEqual(37, machine['tempC'])
+                self.assertEqual(1, machine['speed'])
+                self.assertLessEqual(machine['seconds'], 120)
+        self.assertEqual(4, len(steps))
+        self.assertEqual(37, steps[-1]['machine']['tempC'])
 
     def test_reject_unsafe_and_unreviewed_settings(self):
         for key, value in [('speed', 11), ('tempC', 80), ('seconds', -1), ('seconds', True)]:

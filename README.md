@@ -2,11 +2,13 @@
 
 Recettes personnelles pour le Monsieur Cuisine Connect, au format JSON de Toque.
 
-## Prélavage du bol
+## Nettoyage du bol
 
-[Prélavage doux du bol — sans chauffe](recipes/nettoyage-doux-du-bol.json) : 500 ml d’eau froide ou tiède, une petite goutte de liquide vaisselle doux et un cycle de 30 secondes à vitesse 5, sans chauffe. Il s’agit d’un prélavage maison pour des résidus légers, à compléter par un rinçage et un nettoyage normal.
+[Nettoyage du bol — prélavage, lavage et aide au séchage](recipes/nettoyage-doux-du-bol.json) : trois cycles de 500 ml, avec vidange entre les cycles. Prélavage à l’eau claire, lavage avec une petite goutte de liquide vaisselle, puis rinçage : 30 secondes à vitesse 5, sans chauffe, pour chaque cycle.
 
-La fiche contient les étapes de préparation, le cycle guidé et la finition à la main. Les sources et les choix d’adaptation sont indiqués dans sa provenance. La notice du Connect décrit le nettoyage normal, mais pas ce cycle motorisé : il s’agit d’une adaptation de conseils de prélavage publiés sur le web.
+La fiche inclut une étape personnalisée après vidange : **2 minutes à 37 °C, vitesse 1**, avec confirmation dans Toque. Ce fonctionnement à vide est hors recommandations du fabricant, non validé physiquement et non recommandé par les sources citées. Il peut être passé pour suivre la notice. Aucun contrôle du bol ou du couvercle n’est modifié. Cette étape ne garantit pas un séchage complet et ne remplace pas le nettoyage du couteau et des joints. Terminer par la finition selon la notice et laisser les pièces sécher à l’air libre.
+
+Les sources et les choix d’adaptation sont distingués dans la provenance de la fiche. La durée de 10 minutes est indicative, hors finition et séchage complet. L’identifiant de la recette est conservé lors de cette évolution.
 
 ## Modifier ou ajouter une recette
 
@@ -42,4 +44,4 @@ Les mises à jour des recettes sont distinctes des mises à jour de l’applicat
 - [Guide Cuisine Pratique](https://cuisine-pratique.com/blogs/robot-cuisine-et-air-fryer/comment-nettoyer-monsieur-cuisine-connect) : cycle court d’environ 30 secondes, puis rinçage.
 - [Notice SilverCrest SKMC 1200 B2, section 17](https://mode-emploi.info/wp-content/uploads/2022/06/Notice-dutilisation-SKMC-1200-B2-1.pdf) : entretien, précautions pour les lames et séchage.
 
-La combinaison proposée est une adaptation de ces sources, pas un programme de nettoyage officiel du fabricant.
+La routine proposée est une adaptation de ces sources, pas un programme de nettoyage officiel du fabricant. L’étape d’aide au séchage après vidange est une personnalisation distincte, hors notice ; aucune de ces sources ne la valide.

@@ -1,27 +1,29 @@
 {
   "id": "perso-nettoyage-doux-du-bol",
-  "title": "Prélavage doux du bol — sans chauffe",
+  "title": "Nettoyage du bol — prélavage, lavage et aide au séchage",
   "category": "Entretien",
   "tags": [
     "nettoyage",
-    "prélavage"
+    "prélavage",
+    "rinçage",
+    "séchage"
   ],
   "servings": 0,
-  "prepMinutes": 2,
-  "totalMinutes": 5,
+  "prepMinutes": 5,
+  "totalMinutes": 10,
   "difficulty": 1,
   "source": "user",
   "author": "Recettes personnelles",
   "image": "",
   "ingredients": [
     {
-      "group": "Pour le prélavage",
+      "group": "Pour les trois cycles à l’eau",
       "items": [
         {
-          "qty": "500",
+          "qty": "1500",
           "unit": "ml",
           "name": "eau froide ou tiède",
-          "note": "40 °C maximum ; laisser refroidir le bol avant de commencer"
+          "note": "trois remplissages de 500 ml ; 40 °C maximum ; prévoir davantage d’eau pour la finition et les rinçages supplémentaires"
         },
         {
           "qty": "1",
@@ -40,17 +42,14 @@
       "text": "Retirer le fouet et les paniers. Garder le couteau correctement monté avec son joint. Vérifier que les contacts extérieurs du bol sont secs, puis installer le bol sur le robot."
     },
     {
-      "text": "Verser 500 ml d’eau froide ou tiède, jamais bouillante, dans le bol.",
+      "text": "Prélavage : verser 500 ml d’eau froide ou tiède dans le bol, sans liquide vaisselle. Fermer et verrouiller le couvercle, gobelet doseur en place.",
       "weigh": {
         "label": "Eau pour le prélavage",
         "grams": 500
       }
     },
     {
-      "text": "Ajouter une seule petite goutte de liquide vaisselle doux. Fermer et verrouiller le couvercle, gobelet doseur en place."
-    },
-    {
-      "text": "Après vérification du bol, du couvercle et du gobelet, lancer 30 secondes à vitesse 5, sans chauffe et sans fouet. Rester près du robot et arrêter si de la mousse déborde.",
+      "text": "Prélavage à l’eau claire : vérifier le bol et le couvercle, puis lancer 30 secondes à vitesse 5, sans chauffe et sans fouet.",
       "machine": {
         "program": "manuel",
         "seconds": 30,
@@ -63,13 +62,72 @@
       "needsReview": true
     },
     {
-      "text": "Attendre l’arrêt complet des lames, puis éteindre et débrancher le robot. Retirer le bol et vider l’eau savonneuse. Terminer le nettoyage du bol et des accessoires avec une brosse douce et du liquide vaisselle, puis rincer soigneusement à l’eau claire, sans toucher les lames à mains nues."
+      "text": "Attendre l’arrêt complet des lames. Retirer le bol et vider l’eau du prélavage. Vérifier que les contacts extérieurs restent secs, puis remettre le bol en place."
     },
     {
-      "text": "Si nécessaire, essuyer le socle avec un chiffon légèrement humide, appareil toujours débranché, puis sécher ; ne jamais l’immerger. Laisser toutes les pièces et les contacts du bol sécher complètement avant remontage. Pour un lavage au lave-vaisselle, retirer d’abord le couteau du bol selon la notice."
+      "text": "Lavage : verser 500 ml d’eau propre, froide ou tiède, dans le bol.",
+      "weigh": {
+        "label": "Eau propre pour le lavage",
+        "grams": 500
+      }
+    },
+    {
+      "text": "Ajouter une seule petite goutte de liquide vaisselle doux. Fermer et verrouiller le couvercle, gobelet doseur en place. Lancer 30 secondes à vitesse 5, sans chauffe. Rester près du robot et arrêter si de la mousse déborde.",
+      "machine": {
+        "program": "manuel",
+        "seconds": 30,
+        "speed": 5,
+        "tempC": 0,
+        "reverse": false,
+        "accessory": "blade",
+        "pulses": 0
+      },
+      "needsReview": true
+    },
+    {
+      "text": "Attendre l’arrêt complet des lames. Retirer le bol, vider l’eau savonneuse et le remettre en place, contacts extérieurs secs."
+    },
+    {
+      "text": "Rinçage : verser 500 ml d’eau propre, froide ou tiède, sans produit vaisselle.",
+      "weigh": {
+        "label": "Eau claire pour le rinçage",
+        "grams": 500
+      }
+    },
+    {
+      "text": "Fermer et verrouiller le couvercle, gobelet doseur en place. Lancer le rinçage pendant 30 secondes à vitesse 5, sans chauffe.",
+      "machine": {
+        "program": "manuel",
+        "seconds": 30,
+        "speed": 5,
+        "tempC": 0,
+        "reverse": false,
+        "accessory": "blade",
+        "pulses": 0
+      },
+      "needsReview": true
+    },
+    {
+      "text": "Attendre l’arrêt complet des lames. Retirer le bol et vider l’eau de rinçage. Si de la mousse ou du produit reste, rincer encore à l’eau claire avant de poursuivre. Ne pas toucher les lames. Remettre le bol vidé, encore humide, sur le robot, contacts extérieurs secs."
+    },
+    {
+      "text": "Aide au séchage personnalisée, hors recommandations du fabricant : après vidange, fermer et verrouiller le couvercle, gobelet doseur en place. Confirmer 2 minutes à 37 °C, vitesse 1, et rester près du robot. Ce fonctionnement à vide n’est pas validé par les sources ; passer cette étape pour suivre la notice. Ce cycle peut seulement aider le séchage, sans garantir que toutes les pièces soient sèches.",
+      "machine": {
+        "program": "manuel",
+        "seconds": 120,
+        "speed": 1,
+        "tempC": 37,
+        "reverse": false,
+        "accessory": "blade",
+        "pulses": 0
+      },
+      "needsReview": true
+    },
+    {
+      "text": "Après l’arrêt complet des lames, retirer le couvercle pour laisser l’humidité s’échapper. Terminer la recette guidée, puis éteindre et débrancher le robot avant la finition. Contrôler et nettoyer séparément le couteau, les joints et les accessoires selon la notice, avec une brosse douce et du liquide vaisselle, puis rincer soigneusement. Laisser toutes les pièces et les contacts sécher complètement avant remontage. Ne jamais immerger le socle."
     }
   ],
-  "notes": "Prélavage maison pour des salissures légères, à compléter par un nettoyage normal et un rinçage soigneux. Ce cycle ne désinfecte pas et ne traite pas les dépôts brûlés. Utiliser uniquement une petite goutte de liquide vaisselle pour limiter la mousse ; ne pas mélanger de produits de nettoyage. L’eau reste froide ou tiède (40 °C maximum), sans chauffe. Cette adaptation n’est pas un programme de nettoyage officiel du fabricant.",
+  "notes": "Routine maison pour des salissures légères : trois cycles de 500 ml avec vidange entre chaque cycle, puis une aide au séchage personnalisée après vidange. Cette dernière étape de 2 minutes à 37 °C, vitesse 1, est un usage à vide hors recommandations du fabricant, non validé physiquement ni par les sources. Les gouttes restantes ne constituent pas une cuve remplie. Tous les cycles demandent une confirmation ; aucune sécurité ne doit être désactivée. La routine ne désinfecte pas, ne traite pas les dépôts brûlés et ne remplace pas le nettoyage du couteau et des joints selon la notice. Durée indicative de 10 minutes, hors finition et séchage complet à l’air libre. Ne pas mélanger de produits de nettoyage.",
   "provenance": {
     "checkedOn": "2026-11-18",
     "sources": [
@@ -86,7 +144,7 @@
         "contribution": "Notice SilverCrest, section 17 : entretien du socle, rinçage, séchage et précautions pour les lames."
       }
     ],
-    "status": "adaptation-sourcee",
-    "adaptation": "500 ml et vitesse 5 d’après Technplay ; une goutte et environ 30 secondes d’après Cuisine Pratique. Le choix d’une eau froide ou tiède, limitée à 40 °C et sans chauffe, est propre à cette fiche. Les précautions de nettoyage et de séchage proviennent de la notice SilverCrest ; celle-ci ne décrit pas ce cycle motorisé."
+    "status": "adaptation-avec-etape-personnalisee-hors-notice",
+    "adaptation": "Le lavage de 500 ml avec liquide vaisselle à vitesse 5 reprend Technplay ; une goutte et environ 30 secondes reprennent Cuisine Pratique. Le prélavage et le rinçage séparés de 30 secondes à l’eau claire sont des choix propres à cette fiche. L’aide au séchage après vidange, 120 secondes à 37 °C et vitesse 1, est une personnalisation demandée par le propriétaire : elle n’est pas recommandée par les sources et n’a pas été validée physiquement. La notice déconseille le fonctionnement à vide ; elle décrit le nettoyage manuel et le séchage des pièces, pas cette routine motorisée."
   }
 }
