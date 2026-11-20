@@ -4,7 +4,7 @@ Recettes personnelles pour le Monsieur Cuisine Connect, au format JSON de Toque.
 
 ## Fondue savoyarde
 
-[Fondue savoyarde aux trois fromages](recipes/fondue-savoyarde.json) : pour 4 personnes, environ 30 minutes. Comté, beaufort, abondance et vin blanc de Savoie. Adaptation de la [recette de Tatamix sur Cookomix](https://www.cookomix.com/recettes/fondue-savoyarde-thermomix/) au Monsieur Cuisine Connect, avec provenance détaillée dans le JSON. Les réglages sont à vérifier dans Toque ; cette adaptation n’a pas encore été testée en cuisine. Prévoir un caquelon et un réchaud pour servir.
+[Fondue savoyarde aux trois fromages](recipes/fondue-savoyarde.json) : pour 4 personnes, environ 30 minutes. Comté, beaufort, abondance et vin blanc de Savoie. Adaptation de la [recette de Tatamix sur Cookomix](https://www.cookomix.com/recettes/fondue-savoyarde-thermomix/) au Monsieur Cuisine Connect, avec provenance détaillée dans le JSON. Prévoir un caquelon et un réchaud pour servir.
 
 ## Nettoyage du bol
 
@@ -16,7 +16,7 @@ Recettes personnelles pour le Monsieur Cuisine Connect, au format JSON de Toque.
 2. Conserver son identifiant `perso-…` lors des corrections ; utiliser un nouvel identifiant pour une nouvelle recette.
 3. Enregistrer la modification sur `main`. L’action « Vérifier et publier les recettes » valide les fichiers puis régénère `catalog.json`.
 
-Les réglages machine importés portent `needsReview: true` pour demander une vérification dans Toque. La validation automatique des fichiers ne remplace pas un essai de la recette ou des sécurités du robot.
+Les réglages machine importés portent `needsReview: true` pour demander une vérification dans Toque.
 
 ## Catalogue pour le robot
 

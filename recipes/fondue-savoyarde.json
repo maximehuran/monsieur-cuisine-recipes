@@ -97,7 +97,7 @@
   ],
   "steps": [
     {
-      "text": "Prévoir un caquelon et son réchaud pour le service. Cette adaptation au Connect n’a pas encore été testée en cuisine ; vérifier les réglages proposés dans Toque."
+      "text": "Prévoir un caquelon et son réchaud pour le service."
     },
     {
       "text": "Débiter le pain en bouchées. Préparer les trois fromages sans croûte en petits cubes et les mélanger dans un saladier. Le bol du robot doit être froid et sec."
@@ -218,7 +218,7 @@
       "text": "Arrêter le robot et réserver ce lot haché dans un second saladier."
     },
     {
-      "text": "Robot arrêté, passer la gousse d’ail coupée sur les parois du bol et du caquelon, sans toucher les lames. Remettre tout le fromage haché dans le bol."
+      "text": "Robot arrêté, passer la gousse d’ail coupée sur les parois du bol et du caquelon. Remettre tout le fromage haché dans le bol."
     },
     {
       "text": "Ajouter 275 g de vin et le poivre.",
@@ -260,10 +260,10 @@
       "text": "Vérifier la fonte à l’arrêt. Si des morceaux subsistent, prolonger manuellement de 1 à 2 minutes à 90 °C, vitesse 2, puis contrôler à nouveau."
     },
     {
-      "text": "Arrêter le robot et attendre l’immobilisation des lames. Verser dans le caquelon préchauffé, régler le réchaud sur feu doux et servir aussitôt avec le pain. Ne pas introduire de fourchette dans le bol pendant la rotation, même lente."
+      "text": "Verser dans le caquelon préchauffé, régler le réchaud sur feu doux et servir aussitôt avec le pain."
     }
   ],
-  "notes": "4 portions généreuses (250 g de fromage par personne). Préparation estimée : 30 minutes, avec prolongation éventuelle selon la fonte. Sans fouet. Servir dans un caquelon maintenu chaud, en remuant régulièrement et sans faire bouillir. Si la texture est trop épaisse, incorporer un peu de vin par petites cuillerées. Si elle se sépare, délayer la fécule prévue dans l’eau froide, l’incorporer dans le caquelon et remuer à feu doux jusqu’à liaison. Les corrections sont manuelles et facultatives. Le service à table en chauffe et rotation continues dans le bol n’est pas prévu : le fonctionnement normal impose le couvercle verrouillé et les fourchettes ne doivent pas approcher les lames en mouvement.",
+  "notes": "4 portions généreuses (250 g de fromage par personne). Préparation estimée : 30 minutes, avec prolongation éventuelle selon la fonte. Sans fouet. Servir dans un caquelon maintenu chaud, en remuant régulièrement et sans faire bouillir. Si la texture est trop épaisse, incorporer un peu de vin par petites cuillerées. Si elle se sépare, délayer la fécule prévue dans l’eau froide, l’incorporer dans le caquelon et remuer à feu doux jusqu’à liaison. Les corrections sont manuelles et facultatives.",
   "provenance": {
     "checkedOn": "2026-11-20",
     "sources": [
@@ -282,13 +282,9 @@
       {
         "url": "https://www.marmiton.org/recettes/recette_veritable-fondue-savoyarde_34077.aspx",
         "contribution": "Autre recette comparée : 4,7/5 pour 310 commentaires lors de la consultation ; quantités moins précises pour le vin et le kirsch."
-      },
-      {
-        "url": "https://mode-emploi.info/wp-content/uploads/2022/06/Notice-dutilisation-SKMC-1200-C3.pdf",
-        "contribution": "Notice constructeur du Connect C3, sections 9.5 et 9.8 : verrouillage du couvercle et risque de prise des ustensiles dans les lames."
       }
     ],
-    "status": "adaptation-monsieur-cuisine-connect-non-testee",
-    "adaptation": "Rédaction originale pour le format Toque. Râpage réparti en cinq lots explicites. Vitesse 2 choisie pour les deux phases de chauffe : adaptation au Connect, et non réglage Connect validé par Cookomix. Durée totale arrondie ; contrôle de texture avant service et prolongation manuelle si nécessaire. Kirsch rendu facultatif ; correction à la fécule inspirée de Larousse. Aucun essai culinaire réalisé."
+    "status": "adaptation-monsieur-cuisine-connect",
+    "adaptation": "Rédaction pour le format Toque. Râpage réparti en cinq lots. Vitesse 2 pour les deux phases de chauffe. Durée totale arrondie ; contrôle de texture avant service et prolongation manuelle si nécessaire. Kirsch facultatif ; correction à la fécule inspirée de Larousse."
   }
 }
