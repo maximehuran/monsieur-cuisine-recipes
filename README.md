@@ -2,6 +2,10 @@
 
 Recettes personnelles pour le Monsieur Cuisine Connect, au format JSON de Toque.
 
+## Fondue savoyarde
+
+[Fondue savoyarde aux trois fromages](recipes/fondue-savoyarde.json) : pour 4 personnes, environ 30 minutes. Comté, beaufort, abondance et vin blanc de Savoie. Adaptation de la [recette de Tatamix sur Cookomix](https://www.cookomix.com/recettes/fondue-savoyarde-thermomix/) au Monsieur Cuisine Connect, avec provenance détaillée dans le JSON. Les réglages sont à vérifier dans Toque ; cette adaptation n’a pas encore été testée en cuisine. Prévoir un caquelon et un réchaud pour servir.
+
 ## Nettoyage du bol
 
 [Nettoyage du bol et des ustensiles — lavage et séchage](recipes/nettoyage-doux-du-bol.json) : à lancer juste après une recette, avec le panier et les ustensiles dans le bol. Prélavage, lavage avec une goutte de liquide vaisselle, rinçage de la mousse au robinet puis rinçage : trois cycles de 500 ml, 30 secondes à vitesse 5. Séchage final de 2 minutes à 37 °C, vitesse 1.

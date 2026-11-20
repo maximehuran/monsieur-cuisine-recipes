@@ -1,7 +1,301 @@
 {
   "format": "toque-recettes-1",
-  "revision": "ba5878e14e803dc18ca44b113adf36fdcbbc7fe0aab07e8f0106486f304b033e",
+  "revision": "83f6301e02ef1fe3b87bee188b98d7a7a6c4e60a14c3ae96f93d08bda0262433",
   "recipes": [
+    {
+      "id": "perso-fondue-savoyarde",
+      "title": "Fondue savoyarde aux trois fromages",
+      "category": "Plat principal",
+      "tags": [
+        "fondue",
+        "fromage",
+        "Savoie",
+        "hiver",
+        "Monsieur Cuisine Connect"
+      ],
+      "servings": 4,
+      "prepMinutes": 15,
+      "totalMinutes": 30,
+      "difficulty": 1,
+      "source": "user",
+      "author": "Recettes personnelles — adaptation de Tatamix / Cookomix",
+      "image": "",
+      "ingredients": [
+        {
+          "group": "Fondue pour 4 personnes",
+          "items": [
+            {
+              "qty": "400",
+              "unit": "g",
+              "name": "comté",
+              "note": "poids sans croûte"
+            },
+            {
+              "qty": "400",
+              "unit": "g",
+              "name": "beaufort",
+              "note": "poids sans croûte"
+            },
+            {
+              "qty": "200",
+              "unit": "g",
+              "name": "abondance",
+              "note": "poids sans croûte"
+            },
+            {
+              "qty": "275",
+              "unit": "g",
+              "name": "vin blanc sec de Savoie",
+              "note": "Apremont ou Abymes"
+            },
+            {
+              "qty": "1",
+              "unit": "",
+              "name": "gousse d’ail"
+            },
+            {
+              "qty": "1",
+              "unit": "pincée",
+              "name": "poivre"
+            },
+            {
+              "qty": "0.5",
+              "unit": "pincée",
+              "name": "noix de muscade moulue"
+            },
+            {
+              "qty": "1",
+              "unit": "c. à café",
+              "name": "kirsch",
+              "note": "facultatif"
+            }
+          ]
+        },
+        {
+          "group": "Pour servir",
+          "items": [
+            {
+              "qty": "600",
+              "unit": "g",
+              "name": "pain de campagne de la veille"
+            }
+          ]
+        },
+        {
+          "group": "Pour corriger la texture, si nécessaire",
+          "items": [
+            {
+              "qty": "1",
+              "unit": "c. à café rase",
+              "name": "fécule de maïs",
+              "note": "uniquement si le mélange se sépare"
+            },
+            {
+              "qty": "1",
+              "unit": "c. à soupe",
+              "name": "eau froide",
+              "note": "pour délayer la fécule"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "text": "Prévoir un caquelon et son réchaud pour le service. Cette adaptation au Connect n’a pas encore été testée en cuisine ; vérifier les réglages proposés dans Toque."
+        },
+        {
+          "text": "Débiter le pain en bouchées. Préparer les trois fromages sans croûte en petits cubes et les mélanger dans un saladier. Le bol du robot doit être froid et sec."
+        },
+        {
+          "text": "Lot 1/5 : peser 200 g du mélange de cubes.",
+          "weigh": {
+            "label": "Fromages — lot 1/5",
+            "grams": 200
+          }
+        },
+        {
+          "text": "Fermer avec le gobelet doseur ; hacher 7 secondes, vitesse 7, sans chauffe.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 7,
+            "speed": 7,
+            "tempC": 0,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "Arrêter le robot et réserver ce lot haché dans un second saladier."
+        },
+        {
+          "text": "Lot 2/5 : bol vidé, peser 200 g du mélange de cubes.",
+          "weigh": {
+            "label": "Fromages — lot 2/5",
+            "grams": 200
+          }
+        },
+        {
+          "text": "Fermer avec le gobelet doseur ; hacher 7 secondes, vitesse 7, sans chauffe.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 7,
+            "speed": 7,
+            "tempC": 0,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "Arrêter le robot et réserver ce lot haché dans un second saladier."
+        },
+        {
+          "text": "Lot 3/5 : bol vidé, peser 200 g du mélange de cubes.",
+          "weigh": {
+            "label": "Fromages — lot 3/5",
+            "grams": 200
+          }
+        },
+        {
+          "text": "Fermer avec le gobelet doseur ; hacher 7 secondes, vitesse 7, sans chauffe.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 7,
+            "speed": 7,
+            "tempC": 0,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "Arrêter le robot et réserver ce lot haché dans un second saladier."
+        },
+        {
+          "text": "Lot 4/5 : bol vidé, peser 200 g du mélange de cubes.",
+          "weigh": {
+            "label": "Fromages — lot 4/5",
+            "grams": 200
+          }
+        },
+        {
+          "text": "Fermer avec le gobelet doseur ; hacher 7 secondes, vitesse 7, sans chauffe.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 7,
+            "speed": 7,
+            "tempC": 0,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "Arrêter le robot et réserver ce lot haché dans un second saladier."
+        },
+        {
+          "text": "Lot 5/5 : bol vidé, peser 200 g du mélange de cubes.",
+          "weigh": {
+            "label": "Fromages — lot 5/5",
+            "grams": 200
+          }
+        },
+        {
+          "text": "Fermer avec le gobelet doseur ; hacher 7 secondes, vitesse 7, sans chauffe.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 7,
+            "speed": 7,
+            "tempC": 0,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "Arrêter le robot et réserver ce lot haché dans un second saladier."
+        },
+        {
+          "text": "Robot arrêté, passer la gousse d’ail coupée sur les parois du bol et du caquelon, sans toucher les lames. Remettre tout le fromage haché dans le bol."
+        },
+        {
+          "text": "Ajouter 275 g de vin et le poivre.",
+          "weigh": {
+            "label": "Vin blanc sec",
+            "grams": 275
+          }
+        },
+        {
+          "text": "Fermer le couvercle avec le gobelet doseur. Chauffer 6 minutes à 90 °C, vitesse 2.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 360,
+            "speed": 2,
+            "tempC": 90,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "À l’arrêt, ajouter la muscade et, si souhaité, le kirsch."
+        },
+        {
+          "text": "Refermer avec le gobelet doseur. Poursuivre 5 minutes à 90 °C, vitesse 2.",
+          "machine": {
+            "program": "manuel",
+            "seconds": 300,
+            "speed": 2,
+            "tempC": 90,
+            "reverse": false,
+            "accessory": "blade",
+            "pulses": 0
+          },
+          "needsReview": true
+        },
+        {
+          "text": "Vérifier la fonte à l’arrêt. Si des morceaux subsistent, prolonger manuellement de 1 à 2 minutes à 90 °C, vitesse 2, puis contrôler à nouveau."
+        },
+        {
+          "text": "Arrêter le robot et attendre l’immobilisation des lames. Verser dans le caquelon préchauffé, régler le réchaud sur feu doux et servir aussitôt avec le pain. Ne pas introduire de fourchette dans le bol pendant la rotation, même lente."
+        }
+      ],
+      "notes": "4 portions généreuses (250 g de fromage par personne). Préparation estimée : 30 minutes, avec prolongation éventuelle selon la fonte. Sans fouet. Servir dans un caquelon maintenu chaud, en remuant régulièrement et sans faire bouillir. Si la texture est trop épaisse, incorporer un peu de vin par petites cuillerées. Si elle se sépare, délayer la fécule prévue dans l’eau froide, l’incorporer dans le caquelon et remuer à feu doux jusqu’à liaison. Les corrections sont manuelles et facultatives. Le service à table en chauffe et rotation continues dans le bol n’est pas prévu : le fonctionnement normal impose le couvercle verrouillé et les fourchettes ne doivent pas approcher les lames en mouvement.",
+      "provenance": {
+        "checkedOn": "2026-11-20",
+        "sources": [
+          {
+            "url": "https://www.cookomix.com/recettes/fondue-savoyarde-thermomix/",
+            "contribution": "Base retenue : recette de Tatamix, 4,90/5 pour 145 notes lors de la consultation. Quantités et cuisson en deux phases à 90 °C ; recette publiée pour Thermomix."
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=2fCIm-eDqcQ",
+            "contribution": "The Cooking World MC : exemple de fondue au Monsieur Cuisine Plus avec chauffe à 90 °C, vitesse 2. Appareil différent du Connect."
+          },
+          {
+            "url": "https://www.editions-larousse.fr/recette/fondue-savoyarde/",
+            "contribution": "Comparaison culinaire : chauffe douce sans ébullition, service au caquelon et liaison à la fécule."
+          },
+          {
+            "url": "https://www.marmiton.org/recettes/recette_veritable-fondue-savoyarde_34077.aspx",
+            "contribution": "Autre recette comparée : 4,7/5 pour 310 commentaires lors de la consultation ; quantités moins précises pour le vin et le kirsch."
+          },
+          {
+            "url": "https://mode-emploi.info/wp-content/uploads/2022/06/Notice-dutilisation-SKMC-1200-C3.pdf",
+            "contribution": "Notice constructeur du Connect C3, sections 9.5 et 9.8 : verrouillage du couvercle et risque de prise des ustensiles dans les lames."
+          }
+        ],
+        "status": "adaptation-monsieur-cuisine-connect-non-testee",
+        "adaptation": "Rédaction originale pour le format Toque. Râpage réparti en cinq lots explicites. Vitesse 2 choisie pour les deux phases de chauffe : adaptation au Connect, et non réglage Connect validé par Cookomix. Durée totale arrondie ; contrôle de texture avant service et prolongation manuelle si nécessaire. Kirsch rendu facultatif ; correction à la fécule inspirée de Larousse. Aucun essai culinaire réalisé."
+      }
+    },
     {
       "id": "perso-nettoyage-doux-du-bol",
       "title": "Nettoyage du bol et des ustensiles — lavage et séchage",
